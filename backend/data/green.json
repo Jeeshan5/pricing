@@ -1,0 +1,11 @@
+{
+  "version": "green",
+  "plan": "Green Plan",
+  "price": 150,
+  "color": "green",
+  "features": ["Priority Support", "Access to all features"],
+  "plans": [
+    { "name": "Basic", "price": 15, "features": ["Feature X", "Feature Y"] },
+    { "name": "Pro", "price": 30, "features": ["Feature X", "Feature Y", "Feature Z"] }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "version": "blue",
+  "plan": "Blue Plan",
+  "price": 100,
+  "color": "blue",
+  "features": ["Basic Support", "Access to core features"],
+  "plans": [
+    { "name": "Basic", "price": 10, "features": ["Feature A", "Feature B"] },
+    { "name": "Pro", "price": 20, "features": ["Feature A", "Feature B", "Feature C"] }
+  ]
+}
