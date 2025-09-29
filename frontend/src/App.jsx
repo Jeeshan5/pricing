@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Header from "./components/Header";
 import PricingCard from "./components/PricingCard";
 import Footer from "./components/Footer";
 
 const App = () => {
   const [data, setData] = useState(null);
-  const [stats, setStats] = useState({ total: 0, blue: 0, green: 0 });
+  const [stats, setStats] = useState({ totalRequests: 0, blue: 0, green: 0 });
+  const hasFetchedPricing = useRef(false);
 
+  // Fetch pricing data once (prevent double fetch)
   useEffect(() => {
+    if (hasFetchedPricing.current) return;
+    hasFetchedPricing.current = true;
+
     const fetchData = async () => {
       try {
         const res = await fetch("http://localhost:5000/api/pricing", {
@@ -15,12 +20,6 @@ const App = () => {
         });
         const result = await res.json();
         setData(result);
-
-        setStats((prev) => ({
-          total: prev.total + 1,
-          blue: prev.blue + (result.version === "blue" ? 1 : 0),
-          green: prev.green + (result.version === "green" ? 1 : 0),
-        }));
       } catch (err) {
         console.error("Error fetching pricing:", err);
       }
@@ -29,10 +28,28 @@ const App = () => {
     fetchData();
   }, []);
 
+  // Fetch stats from backend every 2 seconds
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/admin/stats");
+        const result = await res.json();
+        setStats(result.stats);
+      } catch (err) {
+        console.error("Error fetching stats:", err);
+      }
+    };
+
+    fetchStats();
+    const interval = setInterval(fetchStats, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   if (!data) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-black text-white text-3xl font-bold animate-pulse">
-        🚀 Loading Premium Plans...
+        Loading Premium Plans...
       </div>
     );
   }

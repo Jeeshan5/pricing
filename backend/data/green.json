@@ -1,11 +1,53 @@
 {
   "version": "green",
-  "plan": "Green Plan",
-  "price": 150,
-  "color": "green",
-  "features": ["Priority Support", "Access to all features"],
+  "title": "New Pricing - Better Value!",
+  "subtitle": "Enhanced plans with more features",
   "plans": [
-    { "name": "Basic", "price": 15, "features": ["Feature X", "Feature Y"] },
-    { "name": "Pro", "price": 30, "features": ["Feature X", "Feature Y", "Feature Z"] }
+    {
+      "id": "basic",
+      "name": "Basic",
+      "price": 7,
+      "period": "month",
+      "description": "Great for getting started",
+      "features": [
+        "Up to 3 projects",
+        "5GB storage",
+        "Community support",
+        "Basic templates"
+      ],
+      "popular": false
+    },
+    {
+      "id": "growth",
+      "name": "Growth",
+      "price": 24,
+      "period": "month",
+      "description": "Perfect for growing teams",
+      "features": [
+        "Up to 25 projects",
+        "50GB storage",
+        "Priority support",
+        "Advanced analytics",
+        "Team workspaces",
+        "API access"
+      ],
+      "popular": true
+    },
+    {
+      "id": "scale",
+      "name": "Scale",
+      "price": 79,
+      "period": "month",
+      "description": "For scaling businesses",
+      "features": [
+        "Unlimited projects",
+        "500GB storage",
+        "24/7 support",
+        "Custom branding",
+        "Advanced permissions",
+        "White-label solutions"
+      ],
+      "popular": false
+    }
   ]
 }

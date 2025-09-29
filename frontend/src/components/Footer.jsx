@@ -4,7 +4,7 @@ const Footer = ({ stats }) => {
   return (
     <footer className="mt-16 text-center text-gray-300 text-sm border-t border-gray-700 pt-6 w-full">
       <p>
-        Total Requests: <span className="text-blue-400">{stats.total}</span> |{" "}
+        Total Requests: <span className="text-blue-400">{stats.totalRequests}</span> |{" "}
         Blue: <span className="text-indigo-400">{stats.blue}</span> | Green:{" "}
         <span className="text-emerald-400">{stats.green}</span>
       </p>

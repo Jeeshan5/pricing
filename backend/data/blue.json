@@ -1,11 +1,51 @@
 {
   "version": "blue",
-  "plan": "Blue Plan",
-  "price": 100,
-  "color": "blue",
-  "features": ["Basic Support", "Access to core features"],
+  "title": "Choose Your Plan",
+  "subtitle": "Simple, transparent pricing",
   "plans": [
-    { "name": "Basic", "price": 10, "features": ["Feature A", "Feature B"] },
-    { "name": "Pro", "price": 20, "features": ["Feature A", "Feature B", "Feature C"] }
+    {
+      "id": "starter",
+      "name": "Starter",
+      "price": 9,
+      "period": "month",
+      "description": "Perfect for individuals",
+      "features": [
+        "Up to 5 projects",
+        "10GB storage",
+        "Email support",
+        "Basic analytics"
+      ],
+      "popular": false
+    },
+    {
+      "id": "professional",
+      "name": "Professional",
+      "price": 29,
+      "period": "month",
+      "description": "Best for small teams",
+      "features": [
+        "Unlimited projects",
+        "100GB storage",
+        "Priority support",
+        "Advanced analytics",
+        "Team collaboration"
+      ],
+      "popular": true
+    },
+    {
+      "id": "enterprise",
+      "name": "Enterprise",
+      "price": 99,
+      "period": "month",
+      "description": "For large organizations",
+      "features": [
+        "Everything in Pro",
+        "Unlimited storage",
+        "24/7 phone support",
+        "Custom integrations",
+        "Dedicated account manager"
+      ],
+      "popular": false
+    }
   ]
 }
