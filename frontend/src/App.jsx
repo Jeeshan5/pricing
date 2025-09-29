@@ -1,70 +1,67 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import Header from "./components/Header";
+import HeroSection from "./components/HeroSection";
 import PricingCard from "./components/PricingCard";
+import PricingGrid from "./components/PricingGrid";
 import Footer from "./components/Footer";
+import LoadingSpinner from "./components/LoadingSpinner";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { usePricingData, useStats } from "./hooks/usePricingData";
+import { THEME_COLORS } from "./constants";
 
 const App = () => {
-  const [data, setData] = useState(null);
-  const [stats, setStats] = useState({ totalRequests: 0, blue: 0, green: 0 });
-  const hasFetchedPricing = useRef(false);
+  const { data, loading, error } = usePricingData();
+  const { stats, error: statsError } = useStats();
 
-  // Fetch pricing data once (prevent double fetch)
-  useEffect(() => {
-    if (hasFetchedPricing.current) return;
-    hasFetchedPricing.current = true;
+  const handleRetry = () => {
+    window.location.reload();
+  };
 
-    const fetchData = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/api/pricing", {
-          credentials: "include",
-        });
-        const result = await res.json();
-        setData(result);
-      } catch (err) {
-        console.error("Error fetching pricing:", err);
-      }
-    };
+  if (loading) {
+    return <LoadingSpinner message="Loading Premium Plans..." />;
+  }
 
-    fetchData();
-  }, []);
-
-  // Fetch stats from backend every 2 seconds
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/api/admin/stats");
-        const result = await res.json();
-        setStats(result.stats);
-      } catch (err) {
-        console.error("Error fetching stats:", err);
-      }
-    };
-
-    fetchStats();
-    const interval = setInterval(fetchStats, 2000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  if (!data) {
+  if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-black text-white text-3xl font-bold animate-pulse">
-        Loading Premium Plans...
-      </div>
+      <ErrorBoundary
+        error={error}
+        onRetry={handleRetry}
+        title="Unable to Load Pricing Plans"
+        description="We're having trouble connecting to our servers. Please check your connection and try again."
+      />
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white flex flex-col items-center">
-      <Header version={data.version} />
-
-      <div className="grid md:grid-cols-2 gap-10 px-8 mt-12 w-full max-w-6xl">
-        {data.plans.map((plan, index) => (
-          <PricingCard key={index} plan={plan} />
-        ))}
+    <div className={`min-h-screen bg-gradient-to-br ${THEME_COLORS.gradients.primary} text-white`}>
+      {/* Background Effects */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-3/4 left-1/2 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl" />
       </div>
 
-      <Footer stats={stats} />
+      {/* Main Content */}
+      <div className="relative z-10 flex flex-col items-center">
+        <Header version={data?.version} />
+        
+        <HeroSection
+          title={data?.title}
+          subtitle={data?.subtitle}
+        />
+
+        {/* Pricing Cards Grid */}
+        <PricingGrid className="mt-8">
+          {data?.plans?.map((plan, index) => (
+            <PricingCard 
+              key={plan.id || index} 
+              plan={plan} 
+            />
+          ))}
+        </PricingGrid>
+
+        <Footer stats={stats} error={statsError} />
+      </div>
     </div>
   );
 };
