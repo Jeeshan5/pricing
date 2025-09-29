@@ -1,0 +1,29 @@
+{
+  "enabled": true,
+  "rules": [
+    {
+      "type": "percentage",
+      "bluePercentage": 70,
+      "greenPercentage": 30,
+      "priority": 1
+    },
+    {
+      "type": "header",
+      "headerName": "X-Version",
+      "blueValue": "blue",
+      "greenValue": "green",
+      "priority": 2
+    },
+    {
+      "type": "ip",
+      "blueIPs": ["127.0.0.1"],
+      "greenIPs": [],
+      "priority": 3
+    },
+    {
+      "type": "cookie",
+      "cookieName": "pricing_version",
+      "priority": 4
+    }
+  ]
+}
