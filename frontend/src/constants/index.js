@@ -1,9 +1,11 @@
 export const API_CONFIG = {
-BASE_URL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
-ENDPOINTS: {
-  PRICING: '/pricing',
-  STATS: '/admin/stats'
-},
+  // Use the environment variable from Vercel; fallback to localhost only for local dev
+  BASE_URL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+
+  ENDPOINTS: {
+    PRICING: '/pricing',
+    STATS: '/admin/stats'
+  },
 
   POLLING_INTERVAL: 2000
 };
