@@ -1,9 +1,10 @@
 export const API_CONFIG = {
-  BASE_URL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
-  ENDPOINTS: {
-    PRICING: '/pricing',
-    STATS: '/admin/stats'
-  },
+BASE_URL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+ENDPOINTS: {
+  PRICING: '/pricing',
+  STATS: '/admin/stats'
+},
+
   POLLING_INTERVAL: 2000
 };
 
