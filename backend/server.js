@@ -7,11 +7,24 @@ const adminRoutes = require('./routes/admin');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// Allowed frontend origins
+const allowedOrigins = [
+  'http://localhost:5173', // local dev
+  'https://pricing-q7wh-845xjefie-jeeshan5s-projects.vercel.app' // deployed frontend
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g., Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS policy: origin ${origin} not allowed`));
+    }
+  },
   credentials: true
 }));
+
 app.use(cookieParser());
 app.use(express.json());
 
