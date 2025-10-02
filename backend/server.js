@@ -7,16 +7,32 @@ const adminRoutes = require('./routes/admin');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Allowed frontend origins
+// Get frontend URL from environment variable
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
+
 const allowedOrigins = [
-  'http://localhost:5173', // local dev
-  'https://pricing-q7wh-845xjefie-jeeshan5s-projects.vercel.app' // deployed frontend
+  'http://localhost:5173',
+  FRONTEND_URL,
+  /https:\/\/pricing-.*\.vercel\.app$/ // Allow all Vercel deployments
 ];
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (e.g., Postman)
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin) {
+      return callback(null, true);
+    }
+    
+    const isAllowed = allowedOrigins.some(allowedOrigin => {
+      if (typeof allowedOrigin === 'string') {
+        return origin === allowedOrigin;
+      }
+      if (allowedOrigin instanceof RegExp) {
+        return allowedOrigin.test(origin);
+      }
+      return false;
+    });
+
+    if (isAllowed) {
       callback(null, true);
     } else {
       callback(new Error(`CORS policy: origin ${origin} not allowed`));
